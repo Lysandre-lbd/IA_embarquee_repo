@@ -75,7 +75,7 @@ Le modèle est entraîné directement sur le dataset brut (déséquilibré), ave
 
 #### Rapport de classification
 
-![Classification report — Partie 2](images/rapport_partie2.png)
+![Classification report — Partie 2](images/rapport_classification_partie2.png)
 *Figure 3 — L'accuracy globale de 98% masque un biais fort vers la classe majoritaire.*
 
 #### Analyse des résultats sans équilibrage
