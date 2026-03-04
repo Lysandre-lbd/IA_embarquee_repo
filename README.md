@@ -124,7 +124,7 @@ Le ratio SMOTE est fixé à **30%** : chaque classe minoritaire est augmentée �
 
 #### Rapport de classification
 
-![Classification report — Partie 3](images/rapport_partie3.png)
+![Classification report — Partie 3](images/rapport_classificaiton_partie3.png)
 *Figure 6 — L'accuracy globale est de 91% avec une nette amélioration de la détection des classes minoritaires.*
 
 #### Analyse des résultats avec équilibrage
