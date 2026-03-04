@@ -75,7 +75,7 @@ Le modèle est entraîné directement sur le dataset brut (déséquilibré), ave
 
 #### Rapport de classification
 
-![Classification report — Partie 2](images/rapport_classification_partie2.png)
+![Classification report — Partie 2](images/rapport_classification_partie2.PNG)
 *Figure 3 — L'accuracy globale de 98% masque un biais fort vers la classe majoritaire.*
 
 #### Analyse des résultats sans équilibrage
@@ -124,7 +124,7 @@ Le ratio SMOTE est fixé à **30%** : chaque classe minoritaire est augmentée �
 
 #### Rapport de classification
 
-![Classification report — Partie 3](images/rapport_classificaiton_partie3.png)
+![Classification report — Partie 3](images/rapport_classificaiton_partie3.PNG)
 *Figure 6 — L'accuracy globale est de 91% avec une nette amélioration de la détection des classes minoritaires.*
 
 #### Analyse des résultats avec équilibrage
