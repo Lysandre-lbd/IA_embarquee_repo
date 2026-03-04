@@ -65,7 +65,7 @@ Le modèle est entraîné directement sur le dataset brut (déséquilibré), ave
 
 #### Courbes d'entraînement
 
-![Courbes accuracy et loss — Partie 2 (sans équilibrage)](images/courbes_partie2.png)
+![Courbes accuracy et loss — Partie 2 (sans équilibrage)](images/courbes_partie_2.png)
 *Figure 1 — Les courbes montrent une convergence rapide avec une accuracy très élevée (~98%), mais cette performance est trompeuse car dominée par la classe majoritaire.*
 
 #### Matrice de confusion
@@ -119,7 +119,7 @@ Le ratio SMOTE est fixé à **30%** : chaque classe minoritaire est augmentée �
 
 #### Matrice de confusion
 
-![Matrice de confusion — Partie 3 (valeurs absolues et recall par classe)](images/matrice_partie3.png)
+![Matrice de confusion — Partie 3 (valeurs absolues et recall par classe)](images/matrices_partie3.png)
 *Figure 5 — Le modèle détecte désormais efficacement les pannes. La matrice normalisée permet de lire directement le recall par classe.*
 
 #### Rapport de classification
