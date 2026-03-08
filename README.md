@@ -101,7 +101,7 @@ On applique **SMOTE** (Synthetic Minority Oversampling Technique) **uniquement s
 Le ratio SMOTE est fixé à **30%** : chaque classe minoritaire est augmentée à 30% de la taille de la classe majoritaire. Ce choix résulte de plusieurs itérations :
 
 - Un SMOTE à 100% (équilibrage total) provoquait un **overfitting sévère** — la training accuracy montait à ~89% tandis que la validation accuracy stagnait à ~73%, avec une divergence claire de la validation loss. Le modèle mémorisait les données synthétiques au lieu de généraliser.
-- Une régularisation forte (Dropout 0.4, L2 5e-3) réduisait l'overfitting mais causait de l'**underfitting** — la training accuracy (~66%) restait inférieure à la validation accuracy (~89%), signe d'un modèle trop contraint.
+- Une régularisation forte (Dropout 0.4, L2 5e-3) réduisait l'overfitting mais causait de l'**underfitting** : la training accuracy (~66%) restait inférieure à la validation accuracy (~89%), signe d'un modèle trop contraint.
 - Le **SMOTE partiel à 30%** avec une régularisation modérée (Dropout 0.2, L2 1e-3) offre le meilleur compromis : les courbes convergent ensemble sans divergence.
 
 #### Paramètres d'entraînement
@@ -169,10 +169,10 @@ Le modèle entraîné est sauvegardé au format **Keras (.h5)**, compatible avec
 1. Création d'un projet STM32CubeIDE pour la carte STM32L4R9
 2. Activation du pack **X-CUBE-AI** dans la configuration du projet
 3. Import du fichier `model_maintenance.h5`
-4. Analyse automatique de la taille du réseau (RAM / Flash)
+4. Analyse automatique de la taille RAM / Flash
 5. Génération du code C d'inférence
-6. Adaptation du fichier `app_x-cube-ai.c` (buffers d'entrée/sortie pour 6 features et 6 classes)
-7. Communication UART avec un script Python pour envoyer les données de test et récupérer les prédictions
+6. Adaptation du fichier `app_x-cube-ai.c`
+7. Communication UART avec un script Python pour envoyer les données de test et récupérer les prédictions ainsi que la précision
 
 ### 5.3 Analyse de la taille du réseau et compatibilité mémoire
 
@@ -194,7 +194,7 @@ La complexité de **992 MACC** (Multiply-Accumulate Operations) est très faible
 ![Analyse X-CUBE-AI — Complexité et utilisation mémoire](images/analyse_cubeai.png)
 *Figure 8 — Résultat de l'analyse X-CUBE-AI : 992 MACC, 13.78 KiB Flash, 2.13 KiB RAM.*
 
-Le modèle n'occupe que **0.67% de la Flash** et **1.11% de la RAM** disponibles. Cette empreinte extrêmement faible s'explique par le choix d'une architecture compacte (32→16→6, ~750 paramètres) et par les **optimisations appliquées par X-CUBE-AI** lors de la conversion : le moteur d'inférence de STMicroelectronics optimise automatiquement le réseau lors de la conversion. Ces optimisations expliquent pourquoi la Flash utilisée (13.78 KiB) est supérieure au poids brut des paramètres (~3 KB) — elle inclut le code du runtime d'inférence en plus des poids du modèle.
+Le modèle n'occupe que **0.67% de la Flash** et **1.11% de la RAM** disponibles. Cette empreinte extrêmement faible s'explique par le choix d'une architecture compacte (3 couches seuleument respectivement 3216 et 6 neurones -> moins de 1000 paramètres) et par les **optimisations appliquées par X-CUBE-AI** lors de la conversion : le moteur d'inférence de STMicroelectronics optimise automatiquement le réseau lors de la conversion. Ces optimisations expliquent pourquoi la Flash utilisée (13.78 KiB) est supérieure au poids brut des paramètres (~3 KB), elle inclut le code du runtime d'inférence en plus des poids du modèle.
 
 Cette empreinte minimale laisse une large marge pour l'application embarquée (logique métier, communication, capteurs) et confirme que l'architecture MLP choisie est parfaitement adaptée au déploiement sur microcontrôleur.
 
@@ -223,7 +223,7 @@ L'inférence est validée en envoyant 100 échantillons du jeu de test via UART 
 ![Accuracy sur STM32 — Script Python via UART](images/accuracy_stm32.png)
 *Figure 9 — Résultat de l'inférence embarquée : accuracy finale de 90% sur 100 échantillons.*
 
-L'accuracy obtenue sur la STM32 (**90%**) est quasi identique à celle du Colab (**91%**). La différence de 1% est marginale et s'explique par la quantification des probabilités de sortie lors de la transmission UART : les probabilités float32 sont converties en uint8 (valeurs 0-255) avant envoi, ce qui introduit une légère perte de précision dans l'argmax. Le modèle lui-même produit les mêmes résultats — c'est la communication qui arrondit.
+L'accuracy obtenue sur la STM32 (**90%**) est quasi identique à celle du Colab (**91%**). La différence de 1% est marginale et s'explique par la quantification des probabilités de sortie lors de la transmission UART : les probabilités float32 sont converties en uint8 (valeurs 0-255) avant envoi, ce qui introduit une légère perte de précision dans l'argmax. Le modèle lui-même produit les mêmes résultats, c'est la communication qui arrondit.
 
 Ce résultat confirme que la conversion X-CUBE-AI est fidèle et que le modèle est pleinement fonctionnel en environnement embarqué.
 
